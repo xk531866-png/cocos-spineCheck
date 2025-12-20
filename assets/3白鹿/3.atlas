@@ -1,0 +1,27 @@
+
+3.png
+size: 1564,1052
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+3白鹿
+  rotate: true
+  xy: 2, 2
+  size: 326, 750
+  orig: 326, 776
+  offset: 0, 0
+  index: -1
+3背景
+  rotate: true
+  xy: 2, 330
+  size: 720, 1560
+  orig: 722, 1562
+  offset: 1, 1
+  index: -1
+3黏黏
+  rotate: false
+  xy: 754, 95
+  size: 160, 233
+  orig: 160, 233
+  offset: 0, 0
+  index: -1

@@ -1,0 +1,27 @@
+
+11.png
+size: 1564,1338
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+11女
+  rotate: true
+  xy: 701, 340
+  size: 274, 792
+  orig: 274, 794
+  offset: 0, 2
+  index: -1
+11底
+  rotate: true
+  xy: 2, 616
+  size: 720, 1560
+  orig: 722, 1562
+  offset: 1, 1
+  index: -1
+11男
+  rotate: false
+  xy: 2, 2
+  size: 697, 612
+  orig: 700, 613
+  offset: 3, 1
+  index: -1

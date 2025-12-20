@@ -1,0 +1,27 @@
+
+6.png
+size: 1757,1127
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+6女
+  rotate: true
+  xy: 1000, 2
+  size: 401, 755
+  orig: 401, 755
+  offset: 0, 0
+  index: -1
+6底
+  rotate: true
+  xy: 2, 405
+  size: 720, 1560
+  orig: 722, 1562
+  offset: 1, 1
+  index: -1
+6男
+  rotate: true
+  xy: 2, 119
+  size: 284, 996
+  orig: 284, 996
+  offset: 0, 0
+  index: -1

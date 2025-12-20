@@ -1,0 +1,38 @@
+{
+  "ver": "2.3.7",
+  "uuid": "4685edbf-ba1d-4991-b742-5ac375fe0b95",
+  "importer": "texture",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 481,
+  "height": 662,
+  "platformSettings": {},
+  "subMetas": {
+    "10女": {
+      "ver": "1.0.6",
+      "uuid": "8b1937c2-f7e4-4f83-8d39-7c3e12633e1a",
+      "importer": "sprite-frame",
+      "rawTextureUuid": "4685edbf-ba1d-4991-b742-5ac375fe0b95",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 481,
+      "height": 662,
+      "rawWidth": 481,
+      "rawHeight": 662,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "ver": "2.3.7",
+  "uuid": "999587f8-58e3-49b7-a70d-c25e80748027",
+  "importer": "texture",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 176,
+  "height": 201,
+  "platformSettings": {},
+  "subMetas": {
+    "道具底7": {
+      "ver": "1.0.6",
+      "uuid": "ae234fa0-a52d-40b9-ba17-c5d07caae32b",
+      "importer": "sprite-frame",
+      "rawTextureUuid": "999587f8-58e3-49b7-a70d-c25e80748027",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": -0.5,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 175,
+      "height": 201,
+      "rawWidth": 176,
+      "rawHeight": 201,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

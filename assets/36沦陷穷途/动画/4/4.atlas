@@ -1,0 +1,27 @@
+
+4.png
+size: 1564,1177
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+4女
+  rotate: true
+  xy: 483, 724
+  size: 451, 483
+  orig: 451, 627
+  offset: 0, 0
+  index: -1
+4底
+  rotate: true
+  xy: 2, 2
+  size: 720, 1560
+  orig: 722, 1562
+  offset: 1, 1
+  index: -1
+4男
+  rotate: true
+  xy: 2, 803
+  size: 372, 479
+  orig: 374, 479
+  offset: 2, 0
+  index: -1

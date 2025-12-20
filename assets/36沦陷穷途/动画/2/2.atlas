@@ -1,0 +1,34 @@
+
+2.png
+size: 2008,1042
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+2光
+  rotate: false
+  xy: 1075, 12
+  size: 299, 306
+  orig: 299, 306
+  offset: 0, 0
+  index: -1
+2女
+  rotate: false
+  xy: 1564, 390
+  size: 442, 650
+  orig: 442, 651
+  offset: 0, 0
+  index: -1
+2底
+  rotate: true
+  xy: 2, 320
+  size: 720, 1560
+  orig: 722, 1562
+  offset: 1, 1
+  index: -1
+2男
+  rotate: true
+  xy: 2, 2
+  size: 316, 1071
+  orig: 316, 1071
+  offset: 0, 0
+  index: -1

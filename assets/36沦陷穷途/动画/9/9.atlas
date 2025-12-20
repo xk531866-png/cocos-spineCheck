@@ -1,0 +1,27 @@
+
+9.png
+size: 1993,1011
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+9女
+  rotate: false
+  xy: 1564, 104
+  size: 427, 905
+  orig: 427, 905
+  offset: 0, 0
+  index: -1
+9底
+  rotate: true
+  xy: 2, 289
+  size: 720, 1560
+  orig: 722, 1562
+  offset: 1, 1
+  index: -1
+9男
+  rotate: true
+  xy: 2, 2
+  size: 285, 1028
+  orig: 285, 1028
+  offset: 0, 0
+  index: -1

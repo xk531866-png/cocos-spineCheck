@@ -1,0 +1,34 @@
+
+8.png
+size: 1934,1065
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+8女
+  rotate: false
+  xy: 1564, 239
+  size: 368, 824
+  orig: 437, 824
+  offset: 0, 0
+  index: -1
+8底
+  rotate: true
+  xy: 2, 343
+  size: 720, 1560
+  orig: 722, 1562
+  offset: 1, 1
+  index: -1
+8椅子
+  rotate: false
+  xy: 1115, 42
+  size: 254, 299
+  orig: 257, 301
+  offset: 1, 1
+  index: -1
+8男
+  rotate: true
+  xy: 2, 2
+  size: 339, 1111
+  orig: 339, 1111
+  offset: 0, 0
+  index: -1

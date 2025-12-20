@@ -1,0 +1,38 @@
+{
+  "ver": "2.3.7",
+  "uuid": "4bc60792-1375-4ee1-b66d-eff0724cbf5f",
+  "importer": "texture",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 419,
+  "height": 422,
+  "platformSettings": {},
+  "subMetas": {
+    "12女": {
+      "ver": "1.0.6",
+      "uuid": "5bb992ed-f8d6-4389-bce0-ebc042a1ae61",
+      "importer": "sprite-frame",
+      "rawTextureUuid": "4bc60792-1375-4ee1-b66d-eff0724cbf5f",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": -0.5,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 418,
+      "height": 422,
+      "rawWidth": 419,
+      "rawHeight": 422,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

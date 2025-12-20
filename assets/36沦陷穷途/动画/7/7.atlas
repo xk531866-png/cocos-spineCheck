@@ -1,0 +1,27 @@
+
+7.png
+size: 1772,988
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+7女
+  rotate: true
+  xy: 992, 9
+  size: 255, 778
+  orig: 256, 781
+  offset: 0, 0
+  index: -1
+7底
+  rotate: true
+  xy: 2, 266
+  size: 720, 1560
+  orig: 722, 1562
+  offset: 1, 1
+  index: -1
+7男
+  rotate: true
+  xy: 2, 2
+  size: 262, 988
+  orig: 262, 989
+  offset: 0, 1
+  index: -1
