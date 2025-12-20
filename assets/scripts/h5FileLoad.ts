@@ -18,7 +18,10 @@ window.textureSrc = null;
 export default class H5FileUploader extends cc.Component {
     // 组件属性（拖入 Cocos 编辑器）
     @property(cc.Button)
-    uploadBtn: cc.Button = null!; // 上传按钮
+    uploadBtn: cc.Button = null!; // 上传文件按钮（支持多选）
+
+    @property(cc.Button)
+    uploadFolderBtn: cc.Button = null!; // 上传文件夹按钮（可选）
 
     @property(cc.Label)
     showLabel: cc.Label = null!; // 显示文本内容的 Label
@@ -30,24 +33,44 @@ export default class H5FileUploader extends cc.Component {
     showSkeleton: sp.Skeleton = null!; // 显示骨骼动画的 Skeleton
 
     onLoad(): void {
-        // 绑定按钮点击事件
-        this.uploadBtn.node.on('click', this.createFileInput, this);
+        // 绑定文件上传按钮（多选模式）
+        this.uploadBtn.node.on('click', () => {
+            this.createFileInput(false); // false 表示文件多选模式
+        }, this);
+
+        // 如果设置了文件夹上传按钮，绑定文件夹上传事件
+        if (this.uploadFolderBtn) {
+            this.uploadFolderBtn.node.on('click', () => {
+                this.createFileInput(true); // true 表示文件夹模式
+            }, this);
+        }
     }
 
     /**
      * 动态创建隐藏的文件选择器
+     * @param isFolderMode 是否为文件夹模式（true=文件夹模式，false=文件多选模式）
      */
-    private createFileInput(): void {
+    private createFileInput(isFolderMode: boolean = false): void {
         // 创建 input[type="file"] 元素
         const fileInput: HTMLInputElement = document.createElement('input');
         fileInput.type = 'file';
         fileInput.style.display = 'none';
+
+        if (isFolderMode) {
+            // 文件夹模式：支持直接选择文件夹
+            fileInput.setAttribute('webkitdirectory', '');
+            fileInput.setAttribute('directory', '');
+        } else {
+            // 文件多选模式：支持在文件选择对话框中浏览并多选文件
+            fileInput.multiple = true;
+        }
+
         // 限制文件类型：txt、json、png、jpg
         fileInput.accept = '.txt,.json,.png,.jpg,.jpeg,.atlas';
 
         // 绑定文件选择事件
         fileInput.onchange = (e: Event) => {
-            this.handleFileSelect(e);
+            this.handleFileSelect(e, isFolderMode);
         };
 
         // 触发文件选择对话框
@@ -57,19 +80,150 @@ export default class H5FileUploader extends cc.Component {
     }
 
     /**
-     * 处理用户选择的文件
+     * 处理用户选择的文件（支持单个文件、多选文件或文件夹）
      * @param e 文件选择事件
+     * @param isFolderMode 是否为文件夹模式
      */
-    private handleFileSelect(e: Event): void {
+    private handleFileSelect(e: Event, isFolderMode: boolean = false): void {
         const target = e.target as HTMLInputElement;
-        const file: File | undefined = target.files?.[0];
+        const files: FileList | null = target.files;
 
-        if (!file) {
+        if (!files || files.length === 0) {
             cc.log('未选择任何文件');
             this.updateLabel('未选择任何文件');
             return;
         }
 
+        // 如果是文件夹模式，直接按文件夹处理
+        if (isFolderMode) {
+            this.handleFolderUpload(files);
+            return;
+        }
+
+        // 文件多选模式：如果选择了多个文件，按文件夹模式处理（筛选 Spine 文件）
+        // 如果只选择了一个文件，按单个文件处理
+        if (files.length > 1) {
+            this.handleFolderUpload(files);
+            return;
+        }
+
+        // 单个文件处理（保持原有逻辑）
+        const file = files[0];
+        this.processSingleFile(file);
+    }
+
+    /**
+     * 处理文件夹上传（筛选并处理 Spine 所需的文件：json、atlas、png）
+     * @param files 文件列表
+     */
+    private handleFolderUpload(files: FileList): void {
+        cc.log(`检测到文件夹上传，共 ${files.length} 个文件`);
+
+        // 先显示文件夹中的所有文件列表
+        const allFileNames: string[] = [];
+        const fileInfoList: string[] = [];
+
+        for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+            const fileInfo = `${file.name} (${(file.size / 1024).toFixed(2)}KB)`;
+            allFileNames.push(file.name);
+            fileInfoList.push(fileInfo);
+            cc.log(`文件 ${i + 1}: ${fileInfo}`);
+        }
+
+        // 在界面上显示文件夹中的所有文件（限制显示数量，避免过长）
+        const maxDisplayFiles = 10;
+        let fileListText = `文件夹内容 (共${files.length}个文件):\n`;
+        if (files.length <= maxDisplayFiles) {
+            fileListText += fileInfoList.join('\n');
+        } else {
+            fileListText += fileInfoList.slice(0, maxDisplayFiles).join('\n');
+            fileListText += `\n... 还有 ${files.length - maxDisplayFiles} 个文件`;
+        }
+        this.updateLabel(fileListText);
+        cc.log('文件夹中的所有文件:', allFileNames);
+
+        // 筛选出 Spine 所需的文件类型
+        const jsonFiles: File[] = [];
+        const atlasFiles: File[] = [];
+        const pngFiles: File[] = [];
+
+        for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+            const fileName = file.name.toLowerCase();
+
+            if (fileName.endsWith('.json')) {
+                jsonFiles.push(file);
+            } else if (fileName.endsWith('.atlas')) {
+                atlasFiles.push(file);
+            } else if (fileName.endsWith('.png')) {
+                pngFiles.push(file);
+            }
+        }
+
+        cc.log(`筛选结果：JSON(${jsonFiles.length})、Atlas(${atlasFiles.length})、PNG(${pngFiles.length})`);
+
+        // 显示筛选结果
+        let filterResult = `\n\n筛选结果:\nJSON: ${jsonFiles.length}个`;
+        if (jsonFiles.length > 0) {
+            filterResult += ` (${jsonFiles.map(f => f.name).join(', ')})`;
+        }
+        filterResult += `\nAtlas: ${atlasFiles.length}个`;
+        if (atlasFiles.length > 0) {
+            filterResult += ` (${atlasFiles.map(f => f.name).join(', ')})`;
+        }
+        filterResult += `\nPNG: ${pngFiles.length}个`;
+        if (pngFiles.length > 0) {
+            filterResult += ` (${pngFiles.map(f => f.name).join(', ')})`;
+        }
+        this.updateLabel(fileListText + filterResult);
+
+        // 验证必要的文件是否存在
+        if (jsonFiles.length === 0) {
+            this.updateLabel(fileListText + filterResult + '\n\n❌ 未找到 JSON 骨架文件');
+            return;
+        }
+        if (atlasFiles.length === 0) {
+            this.updateLabel(fileListText + filterResult + '\n\n❌ 未找到 Atlas 图集文件');
+            return;
+        }
+        if (pngFiles.length === 0) {
+            this.updateLabel(fileListText + filterResult + '\n\n❌ 未找到 PNG 纹理文件');
+            return;
+        }
+
+        // 如果有多组文件，使用第一组（可以根据需要扩展为支持多组）
+        const jsonFile = jsonFiles[0];
+        const atlasFile = atlasFiles[0];
+        const pngFile = pngFiles[0];
+
+        this.updateLabel(`正在加载文件夹中的 Spine 文件...`);
+
+        // 按顺序加载：JSON -> Atlas -> PNG
+        this.loadFileAsText(jsonFile, (content: string) => {
+            window.spineSkeletonData = content;
+            window.spineSkeletonType = 'json';
+            cc.log(`Spine 骨架文件 ${jsonFile.name} 读取成功`);
+
+            this.loadFileAsText(atlasFile, (content: string) => {
+                window.spineAtlasData = content;
+                cc.log(`Spine 图集文件 ${atlasFile.name} 读取成功`);
+
+                this.loadFileAsDataURL(pngFile, (dataUrl: string) => {
+                    window.spineTextureData = dataUrl;
+                    this.loadImageToTexture(dataUrl);
+                    cc.log(`Spine 纹理图 ${pngFile.name} 读取成功`);
+                    this.updateLabel(`✅ Spine 文件加载成功！\nJSON: ${jsonFile.name}\nAtlas: ${atlasFile.name}\nPNG: ${pngFile.name}`);
+                });
+            });
+        });
+    }
+
+    /**
+     * 处理单个文件
+     * @param file 文件对象
+     */
+    private processSingleFile(file: File): void {
         // 文件大小校验（限制 10MB 以内）
         const maxSize = 10 * 1024 * 1024; // 10MB
         if (file.size > maxSize) {
@@ -147,6 +301,36 @@ export default class H5FileUploader extends cc.Component {
         else {
             this.updateLabel(`暂不支持 ${file.name.split('.').pop()} 类型文件`);
         }
+    }
+
+    /**
+     * 以文本形式加载文件
+     * @param file 文件对象
+     * @param callback 成功回调
+     */
+    private loadFileAsText(file: File, callback: (content: string) => void): void {
+        const reader = new FileReader();
+        reader.onload = (event: ProgressEvent<FileReader>) => {
+            const content = event.target?.result as string;
+            callback(content);
+        };
+        reader.onerror = (err) => this.handleFileError(err);
+        reader.readAsText(file);
+    }
+
+    /**
+     * 以 DataURL 形式加载文件
+     * @param file 文件对象
+     * @param callback 成功回调
+     */
+    private loadFileAsDataURL(file: File, callback: (dataUrl: string) => void): void {
+        const reader = new FileReader();
+        reader.onload = (event: ProgressEvent<FileReader>) => {
+            const dataUrl = event.target?.result as string;
+            callback(dataUrl);
+        };
+        reader.onerror = (err) => this.handleFileError(err);
+        reader.readAsDataURL(file);
     }
 
     /**
@@ -269,8 +453,15 @@ export default class H5FileUploader extends cc.Component {
         if (!atlasText) return null;
         const lines = atlasText.split(/\r?\n/);
         if (lines.length === 0) return null;
-        const firstLine = lines[0].trim();
-        if (!firstLine) return null;
+        let firstLine = lines[0].trim();
+        if (!firstLine) {
+            cc.log("第一行为null", firstLine)
+            firstLine = lines[1].trim();
+        }
+        if (!firstLine) {
+            cc.error("altas信息如下", atlasText)
+            return null;
+        }
         return firstLine;
     }
 
