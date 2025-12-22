@@ -32,18 +32,98 @@ export default class H5FileUploader extends cc.Component {
     @property(sp.Skeleton)
     showSkeleton: sp.Skeleton = null!; // 显示骨骼动画的 Skeleton
 
+
+    @property(cc.Button)
+    slotBtn: cc.Button = null!; // 切换slot的按钮
+    slotScorllView: cc.ScrollView;
+    slotContent: cc.Node;
+    btnCloseScorllView: cc.Node
+    slotItem: cc.Node;
+    btnRefreshScorllView: cc.Node;
     onLoad(): void {
         // 绑定文件上传按钮（多选模式）
         this.uploadBtn.node.on('click', () => {
             this.createFileInput(false); // false 表示文件多选模式
         }, this);
-
+        this.slotScorllView = this.node.getChildByName("SlotScrollView").getComponent(cc.ScrollView)
+        this.slotContent = this.slotScorllView.content;
+        this.btnCloseScorllView = cc.find("view/btnClose", this.slotScorllView.node);
+        this.btnRefreshScorllView = cc.find("view/btnRefresh", this.slotScorllView.node);
         // 如果设置了文件夹上传按钮，绑定文件夹上传事件
         if (this.uploadFolderBtn) {
             this.uploadFolderBtn.node.on('click', () => {
                 this.createFileInput(true); // true 表示文件夹模式
             }, this);
         }
+        this.slotItem = this.node.getChildByName("SlotItem");
+        this.slotBtn.node.on('click', () => {
+            this.showSlotMgr();
+        }, this);
+
+        this.btnCloseScorllView.on(cc.Node.EventType.TOUCH_END, () => {
+            this.slotScorllView.node.active = false;
+        }, this);
+        this.btnRefreshScorllView.on(cc.Node.EventType.TOUCH_END, () => {
+            this.showSlotMgr();
+        }, this);
+    }
+
+    showSlotMgr() {
+
+        let slotData = this.showSkeleton.skeletonData;
+        if (!slotData) {
+            cc.log(this.showSkeleton)
+            cc.log("请先导入spine文件再进行卡槽管理-------------")
+            return;
+        }
+        this.slotScorllView.node.active = true;
+        let skeletonJson = slotData.skeletonJson;
+        let slots = skeletonJson.slots;
+        this.slotContent.removeAllChildren();
+        // this.scheduleOnce(()=>{
+
+        // })
+        for (let i = 0; i < slots.length; i++) {
+            if (this.slotContent.childrenCount <= i) {
+                let slotNode = cc.instantiate(this.slotItem);
+                slotNode.parent = this.slotContent;
+                this.scheduleOnce(() => {
+                    slotNode.position = cc.v3(0, 0, 0);
+                }, 0)
+                slotNode.active = true;
+                cc.log(slotNode, "slotNode")
+            }
+            let item = this.slotContent.children[i];
+            // item.position=cc.v3(0,0,0);
+            let slot = slots[i];
+            item.getChildByName("Label").getComponent(cc.Label).string = slot.name;
+            item.name = slot.name;
+            item.opacity = 255;
+            item.color = cc.Color.WHITE;
+            // 保存 slot.name 到局部变量，避免闭包问题
+            let slotName = slot.name;
+            // 如果没有 Button 组件，使用触摸事件
+            item.on(cc.Node.EventType.TOUCH_END, (e: cc.Event.EventTouch) => {
+                try {
+                    if (e.target.opacity === 100) {
+                        cc.log("显示卡槽", e.target.name);
+                        e.target.opacity = 255;
+                        e.target.color = cc.Color.WHITE;
+                        this.showSkeleton.setAttachment(e.target.name, e.target.name);
+                    }
+                    else if (e.target.opacity === 255) {
+                        cc.log("隐藏卡槽", e.target.name);
+                        e.target.opacity = 100;
+                        e.target.color = cc.Color.YELLOW;
+                        this.showSkeleton.setAttachment(e.target.name, null);
+                    }
+                }
+                catch (err) {
+                    this.showSlotMgr();
+                }
+            }, this);
+        }
+
     }
 
     /**
