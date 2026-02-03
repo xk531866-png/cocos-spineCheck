@@ -1,0 +1,286 @@
+
+1.png
+size: 1746,1795
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+1- 3
+  rotate: true
+  xy: 478, 110
+  size: 81, 142
+  orig: 81, 142
+  offset: 0, 0
+  index: -1
+1- 3阴影
+  rotate: true
+  xy: 263, 4
+  size: 83, 144
+  orig: 83, 144
+  offset: 0, 0
+  index: -1
+1-1
+  rotate: false
+  xy: 115, 4
+  size: 109, 57
+  orig: 109, 57
+  offset: 0, 0
+  index: -1
+1-10
+  rotate: false
+  xy: 1296, 383
+  size: 426, 703
+  orig: 426, 703
+  offset: 0, 0
+  index: -1
+1-10阴影
+  rotate: false
+  xy: 1296, 1088
+  size: 428, 705
+  orig: 428, 705
+  offset: 0, 0
+  index: -1
+1-1阴影
+  rotate: false
+  xy: 2, 2
+  size: 111, 59
+  orig: 111, 59
+  offset: 0, 0
+  index: -1
+1-2
+  rotate: false
+  xy: 1666, 239
+  size: 78, 142
+  orig: 78, 142
+  offset: 0, 0
+  index: -1
+1-2阴影
+  rotate: true
+  xy: 264, 89
+  size: 80, 144
+  orig: 80, 144
+  offset: 0, 0
+  index: -1
+1-4
+  rotate: false
+  xy: 622, 119
+  size: 77, 25
+  orig: 77, 25
+  offset: 0, 0
+  index: -1
+1-4阴影
+  rotate: true
+  xy: 1266, 385
+  size: 79, 27
+  orig: 79, 27
+  offset: 0, 0
+  index: -1
+1-5
+  rotate: false
+  xy: 1666, 138
+  size: 73, 33
+  orig: 73, 33
+  offset: 0, 0
+  index: -1
+1-5阴影
+  rotate: false
+  xy: 1506, 14
+  size: 75, 35
+  orig: 75, 35
+  offset: 0, 0
+  index: -1
+1-6
+  rotate: false
+  xy: 1666, 173
+  size: 73, 64
+  orig: 73, 64
+  offset: 0, 0
+  index: -1
+1-6阴影
+  rotate: true
+  xy: 410, 94
+  size: 75, 66
+  orig: 75, 66
+  offset: 0, 0
+  index: -1
+1-7
+  rotate: true
+  xy: 1406, 6
+  size: 43, 98
+  orig: 43, 98
+  offset: 0, 0
+  index: -1
+1-7阴影
+  rotate: true
+  xy: 622, 146
+  size: 45, 100
+  orig: 45, 100
+  offset: 0, 0
+  index: -1
+1-8
+  rotate: true
+  xy: 1266, 2
+  size: 133, 138
+  orig: 133, 138
+  offset: 0, 0
+  index: -1
+1-8阴影
+  rotate: true
+  xy: 1590, 2
+  size: 134, 140
+  orig: 135, 140
+  offset: 0, 0
+  index: -1
+1-9
+  rotate: true
+  xy: 2, 63
+  size: 62, 259
+  orig: 62, 261
+  offset: 0, 2
+  index: -1
+1-9阴影
+  rotate: true
+  xy: 2, 127
+  size: 64, 260
+  orig: 64, 263
+  offset: 0, 3
+  index: -1
+1人
+  rotate: false
+  xy: 724, 466
+  size: 570, 1327
+  orig: 720, 1642
+  offset: 13, 315
+  index: -1
+1手
+  rotate: true
+  xy: 1266, 137
+  size: 244, 315
+  orig: 244, 315
+  offset: 0, 0
+  index: -1
+1背景
+  rotate: false
+  xy: 2, 193
+  size: 720, 1600
+  orig: 722, 1602
+  offset: 1, 1
+  index: -1
+2手
+  rotate: true
+  xy: 1406, 51
+  size: 84, 182
+  orig: 84, 182
+  offset: 0, 0
+  index: -1
+帽子
+  rotate: true
+  xy: 1583, 138
+  size: 243, 81
+  orig: 245, 83
+  offset: 1, 1
+  index: -1
+珠帘
+  rotate: true
+  xy: 264, 171
+  size: 20, 212
+  orig: 20, 212
+  offset: 0, 0
+  index: -1
+珠帘11
+  rotate: true
+  xy: 264, 171
+  size: 20, 212
+  orig: 20, 212
+  offset: 0, 0
+  index: -1
+珠帘12
+  rotate: true
+  xy: 264, 171
+  size: 20, 212
+  orig: 20, 212
+  offset: 0, 0
+  index: -1
+珠帘14
+  rotate: true
+  xy: 264, 171
+  size: 20, 212
+  orig: 20, 212
+  offset: 0, 0
+  index: -1
+珠帘15
+  rotate: true
+  xy: 264, 171
+  size: 20, 212
+  orig: 20, 212
+  offset: 0, 0
+  index: -1
+珠帘16
+  rotate: true
+  xy: 264, 171
+  size: 20, 212
+  orig: 20, 212
+  offset: 0, 0
+  index: -1
+珠帘17
+  rotate: true
+  xy: 264, 171
+  size: 20, 212
+  orig: 20, 212
+  offset: 0, 0
+  index: -1
+珠帘18
+  rotate: true
+  xy: 264, 171
+  size: 20, 212
+  orig: 20, 212
+  offset: 0, 0
+  index: -1
+珠帘19
+  rotate: true
+  xy: 264, 171
+  size: 20, 212
+  orig: 20, 212
+  offset: 0, 0
+  index: -1
+珠帘20
+  rotate: true
+  xy: 264, 171
+  size: 20, 212
+  orig: 20, 212
+  offset: 0, 0
+  index: -1
+珠帘21
+  rotate: true
+  xy: 264, 171
+  size: 20, 212
+  orig: 20, 212
+  offset: 0, 0
+  index: -1
+珠帘22
+  rotate: true
+  xy: 264, 171
+  size: 20, 212
+  orig: 20, 212
+  offset: 0, 0
+  index: -1
+珠帘23
+  rotate: true
+  xy: 264, 171
+  size: 20, 212
+  orig: 20, 212
+  offset: 0, 0
+  index: -1
+珠帘24
+  rotate: true
+  xy: 264, 171
+  size: 20, 212
+  orig: 20, 212
+  offset: 0, 0
+  index: -1
+遮
+  rotate: true
+  xy: 724, 90
+  size: 374, 540
+  orig: 374, 584
+  offset: 0, 44
+  index: -1

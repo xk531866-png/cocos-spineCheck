@@ -1,0 +1,160 @@
+
+5.png
+size: 1724,1359
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+5-1
+  rotate: true
+  xy: 1452, 16
+  size: 99, 73
+  orig: 99, 73
+  offset: 0, 0
+  index: -1
+5-10
+  rotate: false
+  xy: 1466, 306
+  size: 82, 104
+  orig: 82, 104
+  offset: 0, 0
+  index: -1
+5-10阴影
+  rotate: false
+  xy: 1380, 304
+  size: 84, 106
+  orig: 84, 106
+  offset: 0, 0
+  index: -1
+5-1阴影
+  rotate: false
+  xy: 1351, 2
+  size: 99, 74
+  orig: 99, 74
+  offset: 0, 0
+  index: -1
+5-2
+  rotate: false
+  xy: 1351, 78
+  size: 69, 185
+  orig: 69, 185
+  offset: 0, 0
+  index: -1
+5-2阴影
+  rotate: false
+  xy: 1422, 117
+  size: 69, 185
+  orig: 69, 185
+  offset: 0, 0
+  index: -1
+5-3
+  rotate: false
+  xy: 1143, 30
+  size: 206, 233
+  orig: 206, 233
+  offset: 0, 0
+  index: -1
+5-3阴影
+  rotate: true
+  xy: 1143, 265
+  size: 208, 235
+  orig: 208, 235
+  offset: 0, 0
+  index: -1
+5-4
+  rotate: true
+  xy: 1550, 351
+  size: 59, 166
+  orig: 59, 166
+  offset: 0, 0
+  index: -1
+5-4阴影
+  rotate: true
+  xy: 1428, 574
+  size: 61, 168
+  orig: 61, 168
+  offset: 0, 0
+  index: -1
+5-5
+  rotate: false
+  xy: 1545, 189
+  size: 157, 78
+  orig: 157, 78
+  offset: 0, 0
+  index: -1
+5-5阴影
+  rotate: false
+  xy: 1550, 269
+  size: 159, 80
+  orig: 159, 80
+  offset: 0, 0
+  index: -1
+5-6
+  rotate: true
+  xy: 1143, 475
+  size: 160, 283
+  orig: 160, 283
+  offset: 0, 0
+  index: -1
+5-6阴影
+  rotate: true
+  xy: 1428, 412
+  size: 160, 283
+  orig: 160, 283
+  offset: 0, 0
+  index: -1
+5-7
+  rotate: false
+  xy: 1604, 1051
+  size: 118, 306
+  orig: 118, 306
+  offset: 0, 0
+  index: -1
+5-7阴影
+  rotate: false
+  xy: 1604, 743
+  size: 118, 306
+  orig: 118, 306
+  offset: 0, 0
+  index: -1
+5-8
+  rotate: true
+  xy: 1545, 33
+  size: 154, 48
+  orig: 154, 48
+  offset: 0, 0
+  index: -1
+5-8阴影
+  rotate: true
+  xy: 1493, 148
+  size: 156, 50
+  orig: 156, 50
+  offset: 0, 0
+  index: -1
+5-9
+  rotate: true
+  xy: 1604, 683
+  size: 58, 114
+  orig: 58, 114
+  offset: 0, 0
+  index: -1
+5-9阴影
+  rotate: true
+  xy: 1604, 623
+  size: 58, 114
+  orig: 58, 114
+  offset: 0, 0
+  index: -1
+5人
+  rotate: true
+  xy: 2, 3
+  size: 632, 1139
+  orig: 632, 1139
+  offset: 0, 0
+  index: -1
+5背景
+  rotate: true
+  xy: 2, 637
+  size: 720, 1600
+  orig: 722, 1602
+  offset: 1, 1
+  index: -1

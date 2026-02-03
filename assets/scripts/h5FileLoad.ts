@@ -32,6 +32,8 @@ export default class H5FileUploader extends cc.Component {
     @property(sp.Skeleton)
     showSkeleton: sp.Skeleton = null!; // 显示骨骼动画的 Skeleton
 
+    @property(cc.Node)
+    outputSkeletonBtn: cc.Node = null!; // 输出骨骼动画的按钮
 
     @property(cc.Button)
     slotBtn: cc.Button = null!; // 切换slot的按钮
@@ -71,6 +73,7 @@ export default class H5FileUploader extends cc.Component {
     showSlotMgr() {
 
         let slotData = this.showSkeleton.skeletonData;
+        cc.log("skeleton", this.showSkeleton)
         if (!slotData) {
             cc.log(this.showSkeleton)
             cc.log("请先导入spine文件再进行卡槽管理-------------")
@@ -98,12 +101,23 @@ export default class H5FileUploader extends cc.Component {
             let slot = slots[i];
             item.getChildByName("Label").getComponent(cc.Label).string = slot.name;
             item.name = slot.name;
-            item.opacity = 255;
-            item.color = cc.Color.WHITE;
+            // item.opacity = 255;
+            // item.color = cc.Color.WHITE;
             // 保存 slot.name 到局部变量，避免闭包问题
             let slotName = slot.name;
+            if (slot.attachment == null) {
+                item.opacity = 100;
+                item.color = cc.Color.YELLOW;
+            }
+            else {
+                item.opacity = 255;
+                item.color = cc.Color.WHITE;
+            }
             // 如果没有 Button 组件，使用触摸事件
             item.on(cc.Node.EventType.TOUCH_END, (e: cc.Event.EventTouch) => {
+                cc.log(this.showSkeleton.skeletonData, "skeletonData");
+                cc.log(this.showSkeleton.skeletonData.getRuntimeData().slots, "getRuntimeData().slots");
+                cc.log(this.showSkeleton.skeletonData.skeletonJson.slots, "skeletonJson.slots");
                 try {
                     if (e.target.opacity === 100) {
                         cc.log("显示卡槽", e.target.name);
@@ -126,6 +140,61 @@ export default class H5FileUploader extends cc.Component {
 
     }
 
+
+    /**
+     * 保存当前实时的 skeleton 数据为 JSON 文件并触发浏览器下载。
+     * 使用资源的 skeletonJson，并可选地合并当前骨骼的 slot 显示状态（attachment）。
+     */
+    outputSkeleton() {
+        let slotData = this.showSkeleton.skeletonData;
+        if (!slotData) {
+            cc.warn('没有可导出的骨骼数据，请先导入 Spine 文件');
+            return;
+        }
+        // 使用资源自带的 skeletonJson（Spine 标准 JSON 格式）
+        let skeletonJson = slotData.skeletonJson;
+        let skeletonCache = slotData.getRuntimeData();
+        cc.log("skeletonJson", skeletonJson)
+        cc.log("skeletonCache", skeletonCache)
+        // 深拷贝，避免修改原始资源
+        let exportData = JSON.parse(JSON.stringify(skeletonJson));
+        // 可选：把当前实时的 slot attachment 状态写回导出数据（便于保存当前显示状态）
+        try {
+            let slots = skeletonJson.slots;
+            if (slots && exportData.slots && slots.length === exportData.slots.length) {
+                for (let i = 0; i < slots.length; i++) {
+                    let slotDef = slots[i];
+                    // 通过 findSlot 拿到运行时 Slot，再 getAttachment() 得到当前显示的 attachment
+                    let runtimeSlot = this.showSkeleton.findSlot(slotDef.name);
+                    if (!runtimeSlot) continue;
+                    let attachment = runtimeSlot.getAttachment();
+                    cc.log(attachment,"attachment");
+                    let attachmentName = attachment ? attachment.name : null;
+                    if (exportData.slots[i]) {
+                        exportData.slots[i].attachment = attachmentName;
+                    }
+                }
+            }
+        } catch (e) {
+            cc.warn('合并实时 slot 状态时出错，将仅导出原始 skeletonJson', e);
+        }
+        let jsonStr = JSON.stringify(exportData, null, 2);
+        cc.log("jsonStr", jsonStr)
+        this.downloadJsonFile(jsonStr, 'skeleton-export.json');
+    }
+
+    /**
+     * 在浏览器中触发 JSON 文件下载
+     */
+    private downloadJsonFile(jsonStr: string, filename: string) {
+        const blob = new Blob([jsonStr], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        a.click();
+        URL.revokeObjectURL(url);
+    }
     /**
      * 动态创建隐藏的文件选择器
      * @param isFolderMode 是否为文件夹模式（true=文件夹模式，false=文件多选模式）
