@@ -1,0 +1,293 @@
+
+2.png
+size: 1889,1232
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+2-1
+  rotate: true
+  xy: 1634, 13
+  size: 89, 125
+  orig: 89, 125
+  offset: 0, 0
+  index: -1
+2-10
+  rotate: false
+  xy: 1303, 26
+  size: 161, 239
+  orig: 161, 239
+  offset: 0, 0
+  index: -1
+2-10阴影
+  rotate: false
+  xy: 1303, 267
+  size: 163, 241
+  orig: 163, 241
+  offset: 0, 0
+  index: -1
+2-1阴影
+  rotate: false
+  xy: 1795, 421
+  size: 91, 126
+  orig: 91, 126
+  offset: 0, 0
+  index: -1
+2-2
+  rotate: false
+  xy: 1827, 176
+  size: 45, 70
+  orig: 45, 70
+  offset: 0, 0
+  index: -1
+2-2阴影
+  rotate: false
+  xy: 1827, 248
+  size: 47, 72
+  orig: 47, 72
+  offset: 0, 0
+  index: -1
+2-3
+  rotate: false
+  xy: 1827, 127
+  size: 45, 47
+  orig: 45, 47
+  offset: 0, 0
+  index: -1
+2-3阴影
+  rotate: false
+  xy: 1585, 28
+  size: 47, 49
+  orig: 47, 49
+  offset: 0, 0
+  index: -1
+2-4
+  rotate: false
+  xy: 1582, 333
+  size: 114, 162
+  orig: 114, 165
+  offset: 0, 3
+  index: -1
+2-4阴影
+  rotate: true
+  xy: 1709, 926
+  size: 115, 166
+  orig: 116, 167
+  offset: 1, 1
+  index: -1
+2-5
+  rotate: false
+  xy: 1608, 497
+  size: 185, 176
+  orig: 185, 176
+  offset: 0, 0
+  index: -1
+2-5阴影
+  rotate: true
+  xy: 1709, 1043
+  size: 187, 178
+  orig: 187, 178
+  offset: 0, 0
+  index: -1
+2-6
+  rotate: false
+  xy: 1795, 549
+  size: 92, 168
+  orig: 92, 172
+  offset: 0, 3
+  index: -1
+2-6阴影
+  rotate: false
+  xy: 1698, 322
+  size: 94, 173
+  orig: 94, 174
+  offset: 0, 0
+  index: -1
+2-7
+  rotate: true
+  xy: 1483, 7
+  size: 95, 52
+  orig: 95, 52
+  offset: 0, 0
+  index: -1
+2-7阴影
+  rotate: true
+  xy: 1794, 322
+  size: 97, 54
+  orig: 97, 54
+  offset: 0, 0
+  index: -1
+2-8
+  rotate: true
+  xy: 1608, 675
+  size: 233, 111
+  orig: 233, 111
+  offset: 0, 0
+  index: -1
+2-8阴影
+  rotate: true
+  xy: 1468, 273
+  size: 235, 112
+  orig: 235, 113
+  offset: 0, 0
+  index: -1
+2-9
+  rotate: false
+  xy: 1721, 839
+  size: 166, 85
+  orig: 166, 85
+  offset: 0, 0
+  index: -1
+2-9阴影
+  rotate: true
+  xy: 1483, 104
+  size: 167, 85
+  orig: 168, 87
+  offset: 1, 1
+  index: -1
+2人
+  rotate: true
+  xy: 2, 2
+  size: 506, 1299
+  orig: 506, 1299
+  offset: 0, 0
+  index: -1
+2帽子
+  rotate: true
+  xy: 1608, 910
+  size: 320, 99
+  orig: 322, 101
+  offset: 1, 1
+  index: -1
+2背景
+  rotate: true
+  xy: 2, 510
+  size: 720, 1604
+  orig: 722, 1606
+  offset: 1, 1
+  index: -1
+手1
+  rotate: false
+  xy: 1537, 12
+  size: 46, 65
+  orig: 46, 65
+  offset: 0, 0
+  index: -1
+手2
+  rotate: false
+  xy: 1721, 719
+  size: 162, 118
+  orig: 162, 118
+  offset: 0, 0
+  index: -1
+珠帘
+  rotate: false
+  xy: 1466, 23
+  size: 15, 242
+  orig: 15, 242
+  offset: 0, 0
+  index: -1
+珠帘1
+  rotate: false
+  xy: 1570, 79
+  size: 15, 192
+  orig: 15, 192
+  offset: 0, 0
+  index: -1
+珠帘10
+  rotate: false
+  xy: 1741, 115
+  size: 15, 205
+  orig: 15, 205
+  offset: 0, 0
+  index: -1
+珠帘14
+  rotate: false
+  xy: 1724, 105
+  size: 15, 215
+  orig: 15, 215
+  offset: 0, 0
+  index: -1
+珠帘15
+  rotate: false
+  xy: 1758, 117
+  size: 15, 203
+  orig: 15, 203
+  offset: 0, 0
+  index: -1
+珠帘16
+  rotate: false
+  xy: 1775, 117
+  size: 15, 203
+  orig: 15, 203
+  offset: 0, 0
+  index: -1
+珠帘17
+  rotate: false
+  xy: 1792, 121
+  size: 16, 199
+  orig: 16, 199
+  offset: 0, 0
+  index: -1
+珠帘18
+  rotate: false
+  xy: 1810, 137
+  size: 15, 183
+  orig: 15, 183
+  offset: 0, 0
+  index: -1
+珠帘2
+  rotate: false
+  xy: 1689, 107
+  size: 16, 213
+  orig: 16, 213
+  offset: 0, 0
+  index: -1
+珠帘3
+  rotate: false
+  xy: 1621, 107
+  size: 15, 224
+  orig: 15, 224
+  offset: 0, 0
+  index: -1
+珠帘4
+  rotate: false
+  xy: 1672, 112
+  size: 15, 219
+  orig: 15, 219
+  offset: 0, 0
+  index: -1
+珠帘5
+  rotate: false
+  xy: 1638, 107
+  size: 15, 224
+  orig: 15, 224
+  offset: 0, 0
+  index: -1
+珠帘6
+  rotate: false
+  xy: 1587, 104
+  size: 15, 227
+  orig: 15, 227
+  offset: 0, 0
+  index: -1
+珠帘7
+  rotate: false
+  xy: 1604, 106
+  size: 15, 225
+  orig: 15, 225
+  offset: 0, 0
+  index: -1
+珠帘8
+  rotate: false
+  xy: 1655, 109
+  size: 15, 222
+  orig: 15, 222
+  offset: 0, 0
+  index: -1
+珠帘9
+  rotate: false
+  xy: 1707, 104
+  size: 15, 216
+  orig: 15, 216
+  offset: 0, 0
+  index: -1
