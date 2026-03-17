@@ -139,7 +139,34 @@ export default class H5FileUploader extends cc.Component {
         }
 
     }
-
+    /**
+     * 根据附件名字找所在的bone下插入数字或者图片
+     */
+    insert2Bone() {
+        let attachmentNameList = ["3-1", "3-2", "3-3", "3-4", "3-5", "3-6", "3-7", "3-8", "3-9"];
+        let attachUtil = (this.showSkeleton as any).attachUtil;
+        if (!attachUtil) return;
+        let insertNode = new cc.Node();
+        let label = insertNode.addComponent(cc.Label);
+        label.string = "1";
+        cc.log(this.showSkeleton.skeletonData.skeletonJson.slots, "skeletonJson.slots");
+        attachmentNameList.forEach(name => {
+            let slot = this.showSkeleton.findSlot(name);
+            if (!slot) {
+                cc.warn("没有找到插槽", name);
+                return;
+            }
+            let boneName = slot.bone.data.name;
+            let nodes = attachUtil.generateAttachedNodes(boneName);
+            if (nodes.length > 0) {
+                cc.log("生成挂点成功", boneName, nodes[0]);
+                let labelNode = cc.instantiate(insertNode);
+                nodes[0].addChild(labelNode);
+                labelNode.getComponent(cc.Label).string = name.split("-")[1];
+                labelNode.angle = -nodes[0]._bone.arotation - 90;
+            }
+        })
+    }
 
     /**
      * 保存当前实时的 skeleton 数据为 JSON 文件并触发浏览器下载。
@@ -168,7 +195,7 @@ export default class H5FileUploader extends cc.Component {
                     let runtimeSlot = this.showSkeleton.findSlot(slotDef.name);
                     if (!runtimeSlot) continue;
                     let attachment = runtimeSlot.getAttachment();
-                    cc.log(attachment,"attachment");
+                    cc.log(attachment, "attachment");
                     let attachmentName = attachment ? attachment.name : null;
                     if (exportData.slots[i]) {
                         exportData.slots[i].attachment = attachmentName;
