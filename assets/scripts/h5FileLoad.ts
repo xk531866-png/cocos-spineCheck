@@ -149,13 +149,17 @@ export default class H5FileUploader extends cc.Component {
         let insertNode = new cc.Node();
         let label = insertNode.addComponent(cc.Label);
         label.string = "1";
+
         cc.log(this.showSkeleton.skeletonData.skeletonJson.slots, "skeletonJson.slots");
         attachmentNameList.forEach(name => {
-            let slot = this.showSkeleton.findSlot(name);
+            let nameS = name + "影";
+            let slot = this.showSkeleton.findSlot(nameS);
             if (!slot) {
-                cc.warn("没有找到插槽", name);
+                cc.warn("没有找到插槽", nameS);
                 return;
             }
+            let attachment = slot.getAttachment();
+            cc.log(slot, attachment, "slot and attachment-----------------------")
             let boneName = slot.bone.data.name;
             let nodes = attachUtil.generateAttachedNodes(boneName);
             if (nodes.length > 0) {
@@ -164,6 +168,7 @@ export default class H5FileUploader extends cc.Component {
                 nodes[0].addChild(labelNode);
                 labelNode.getComponent(cc.Label).string = name.split("-")[1];
                 labelNode.angle = -nodes[0]._bone.arotation - 90;
+                labelNode.color = cc.Color.RED;
             }
         })
     }
@@ -368,31 +373,61 @@ export default class H5FileUploader extends cc.Component {
             return;
         }
 
-        // 如果有多组文件，使用第一组（可以根据需要扩展为支持多组）
-        const jsonFile = jsonFiles[0];
-        const atlasFile = atlasFiles[0];
-        const pngFile = pngFiles[0];
+        this.updateLabel(`正在加载文件夹中的 Spine 文件 (图片共 ${pngFiles.length} 张)...`);
 
-        this.updateLabel(`正在加载文件夹中的 Spine 文件...`);
+        // 设置全局状态为数组模式（为了兼容，我们可以在 window 上挂一个数组）
+        (window as any).spineTextures = [];
+        let loadedCount = 0;
 
-        // 按顺序加载：JSON -> Atlas -> PNG
-        this.loadFileAsText(jsonFile, (content: string) => {
-            window.spineSkeletonData = content;
+        // 加载逻辑
+        this.loadFileAsText(jsonFiles[0], (jsonContent) => {
+            window.spineSkeletonData = jsonContent;
             window.spineSkeletonType = 'json';
-            cc.log(`Spine 骨架文件 ${jsonFile.name} 读取成功`);
 
-            this.loadFileAsText(atlasFile, (content: string) => {
-                window.spineAtlasData = content;
-                cc.log(`Spine 图集文件 ${atlasFile.name} 读取成功`);
+            this.loadFileAsText(atlasFiles[0], (atlasContent) => {
+                window.spineAtlasData = atlasContent;
 
-                this.loadFileAsDataURL(pngFile, (dataUrl: string) => {
-                    window.spineTextureData = dataUrl;
-                    this.loadImageToTexture(dataUrl);
-                    cc.log(`Spine 纹理图 ${pngFile.name} 读取成功`);
-                    this.updateLabel(`✅ Spine 文件加载成功！\nJSON: ${jsonFile.name}\nAtlas: ${atlasFile.name}\nPNG: ${pngFile.name}`);
+                // 循环加载所有 PNG
+                pngFiles.forEach(file => {
+                    this.loadFileAsDataURL(file, (dataUrl) => {
+                        this.loadImageToTextureWithName(dataUrl, file.name, () => {
+                            loadedCount++;
+                            if (loadedCount === pngFiles.length) {
+                                cc.log("所有纹理加载完毕");
+                                this.updateLabel(`✅ ${pngFiles.length} 张图片加载成功，正在初始化动画...`);
+                                this.checkSpineFilesReady();
+                            }
+                        });
+                    });
                 });
             });
         });
+    }
+
+    /**
+     * 将图片加载为纹理并赋予特定名称
+     */
+    private loadImageToTextureWithName(dataUrl: string, fileName: string, callback: () => void): void {
+        const image = new Image();
+        image.crossOrigin = 'anonymous';
+        image.onload = () => {
+            const tex = new cc.Texture2D();
+            tex.initWithElement(image);
+            tex.handleLoadedTexture();
+            tex.name = fileName; // 关键：必须和 atlas 里的名字对应
+
+            if (!(window as any).spineTextures) (window as any).spineTextures = [];
+            (window as any).spineTextures.push(tex);
+
+            // 为了兼容旧逻辑，如果是第一张，也赋给 window.textureSrc
+            if ((window as any).spineTextures.length === 1) {
+                window.textureSrc = tex;
+                window.spineTextureData = dataUrl;
+            }
+
+            callback();
+        };
+        image.src = dataUrl;
     }
 
     /**
@@ -741,15 +776,19 @@ export default class H5FileUploader extends cc.Component {
                         cc.log('纹理名称已设置为:', pageName);
                     }
 
-                    // 创建纹理数组 - 确保顺序正确
+                    // 创建纹理数组 - 支持多张图片
                     const texture2D: cc.Texture2D[] = [];
-                    texture2D.push(window.textureSrc);
+                    if ((window as any).spineTextures && (window as any).spineTextures.length > 0) {
+                        (window as any).spineTextures.forEach(t => texture2D.push(t));
+                    } else if (window.textureSrc) {
+                        texture2D.push(window.textureSrc);
+                    }
                     skeletonData.textures = texture2D;
 
-                    // 如果 SkeletonData 支持 textureNames 属性，设置它
-                    if (pageName && (skeletonData as any).textureNames !== undefined) {
-                        (skeletonData as any).textureNames = [pageName];
-                        cc.log('已设置 textureNames:', [pageName]);
+                    // 设置 textureNames，帮助 Spine 引擎通过名称精确匹配 Atlas 页面
+                    if ((skeletonData as any).textureNames !== undefined) {
+                        (skeletonData as any).textureNames = texture2D.map(t => t.name);
+                        cc.log('已设置 textureNames:', (skeletonData as any).textureNames);
                     }
 
                     cc.log('SkeletonData 创建完成，纹理数量:', texture2D.length);

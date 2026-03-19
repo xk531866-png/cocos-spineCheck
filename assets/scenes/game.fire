@@ -585,7 +585,7 @@
     "_groupIndex": 0,
     "groupIndex": 0,
     "showInEditor": false,
-    "_id": "fa6EaZRrJM6Imp03cDUEuy"
+    "_id": "c2S5YuFc1EVbJQVZMCeoM9"
   },
   {
     "__type__": "cc.Graphics",
@@ -618,7 +618,7 @@
       "a": 255
     },
     "_miterLimit": 10,
-    "_id": "b7wbTVIydH0Z6bn/9ZpImp"
+    "_id": "20CDcjvmlMs6iqGJfGxq6e"
   },
   {
     "__type__": "cc.Node",
