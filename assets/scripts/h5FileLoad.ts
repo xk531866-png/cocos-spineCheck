@@ -765,16 +765,19 @@ export default class H5FileUploader extends cc.Component {
                     skeletonData.atlasText = processedAtlasText;
 
                     // 从 atlas 中提取页面名称
-                    const pageName = this.extractPageNameFromAtlas(processedAtlasText);
-                    cc.log('Atlas 页面名称:', pageName);
-                    cc.log('Atlas 文件内容:', processedAtlasText.substring(0, 100) + '...');
-                    cc.log('Atlas 文件已处理，原始长度:', window.spineAtlasData.length, '处理后长度:', processedAtlasText.length);
-
-                    // 设置纹理名称以匹配 atlas 页面名称
-                    if (pageName) {
-                        window.textureSrc.name = pageName;
-                        cc.log('纹理名称已设置为:', pageName);
+                    const lines = processedAtlasText.split(/\r?\n/);
+                    const allPageNames: string[] = [];
+                    for (let i = 0; i < lines.length; i++) {
+                        const line = lines[i].trim();
+                        // 简单的启发式：如果一行不包含 ':' 且不是第一行（或者紧跟在空行后），它可能是一个页面名称
+                        if (line && line.indexOf(':') === -1 && (i === 0 || !lines[i - 1].trim())) {
+                            allPageNames.push(line);
+                        }
                     }
+
+                    cc.log('Atlas 所有页面名称:', allPageNames);
+                    cc.log('Atlas 文件内容前200字符:', processedAtlasText.substring(0, 200));
+                    cc.log('Atlas 文件已处理，原始长度:', window.spineAtlasData.length, '处理后长度:', processedAtlasText.length);
 
                     // 创建纹理数组 - 支持多张图片
                     const texture2D: cc.Texture2D[] = [];
@@ -783,13 +786,82 @@ export default class H5FileUploader extends cc.Component {
                     } else if (window.textureSrc) {
                         texture2D.push(window.textureSrc);
                     }
+
+                    // 如果是单文件模式且没有显式设置名称，我们才尝试使用第一个页面名称
+                    if (allPageNames.length > 0 && window.textureSrc && texture2D.length === 1) {
+                        if (!window.textureSrc.name || window.textureSrc.name === "" || window.textureSrc.name === "undefined") {
+                            window.textureSrc.name = allPageNames[0];
+                            cc.log('单文件模式：纹理名称已补齐设置为:', allPageNames[0]);
+                        }
+                    }
                     skeletonData.textures = texture2D;
 
                     // 设置 textureNames，帮助 Spine 引擎通过名称精确匹配 Atlas 页面
-                    if ((skeletonData as any).textureNames !== undefined) {
-                        (skeletonData as any).textureNames = texture2D.map(t => t.name);
-                        cc.log('已设置 textureNames:', (skeletonData as any).textureNames);
-                    }
+                    // 我们尝试多种匹配方式：原始名称，全小写名称，去掉扩展名的名称
+                    const textureNames: string[] = [];
+                    texture2D.forEach((t, index) => {
+                        const name = t.name || '';
+                        textureNames.push(name);
+                        // 如果 atlas 里可能没有 .png 扩展名
+                        if (name.includes('.')) {
+                            const baseName = name.substring(0, name.lastIndexOf('.'));
+                            // 这里我们不能直接 push，因为 atlas 里的 page 顺序必须和 textures 对应？
+                            // 不对，在有 textureNames 时，顺序由 textureNames 决定。
+                            // 但是如果你在 textureNames 里放了多余的名字，会有问题。
+                        }
+                    });
+
+                    // 更稳妥的做法：遍历 atlas 需要的 pageNames，从我们的 textures 中找
+                    const finalTextures: cc.Texture2D[] = [];
+                    const finalTextureNames: string[] = [];
+
+                    allPageNames.forEach(pageName => {
+                        let matchedTex = texture2D.find(t => t.name === pageName);
+                        if (!matchedTex) {
+                            // 尝试忽略大小写匹配
+                            matchedTex = texture2D.find(t => t.name.toLowerCase() === pageName.toLowerCase());
+                        }
+                        if (!matchedTex && !pageName.includes('.')) {
+                            // 如果 atlas 里没有扩展名，尝试加上 .png 匹配
+                            matchedTex = texture2D.find(t => t.name === pageName + '.png' || t.name === pageName + '.jpg');
+                        }
+                        if (!matchedTex && pageName.includes('.')) {
+                            // 如果 atlas 里有扩展名，尝试去掉扩展名匹配
+                            const basePageName = pageName.substring(0, pageName.lastIndexOf('.'));
+                            matchedTex = texture2D.find(t => t.name === basePageName);
+                        }
+
+                        if (matchedTex) {
+                            finalTextures.push(matchedTex);
+                            finalTextureNames.push(pageName);
+                            cc.log(`成功匹配纹理: ${pageName} -> ${matchedTex.name}`);
+                        } else {
+                            cc.error(`未能为页面 ${pageName} 找到匹配的纹理！使用空纹理兜底防止崩溃。`);
+                            const dummyTex = new cc.Texture2D();
+                            dummyTex.name = pageName;
+                            // 创建一个 1x1 的透明纹理
+                            const canvas = document.createElement('canvas');
+                            canvas.width = 1;
+                            canvas.height = 1;
+                            dummyTex.initWithElement(canvas as any);
+                            finalTextures.push(dummyTex);
+                            finalTextureNames.push(pageName);
+                        }
+                    });
+
+                    // 补齐可能没用到的纹理（可选）
+                    texture2D.forEach(t => {
+                        if (finalTextures.indexOf(t) === -1) {
+                            finalTextures.push(t);
+                            finalTextureNames.push(t.name);
+                        }
+                    });
+
+                    skeletonData.textures = finalTextures;
+                    (skeletonData as any).textureNames = finalTextureNames;
+                    (skeletonData as any)._textureNames = finalTextureNames;
+                    cc.log('最终设置的 textures:', finalTextures.map(t => t.name));
+                    cc.log('最终设置的 textureNames:', finalTextureNames);
 
                     cc.log('SkeletonData 创建完成，纹理数量:', texture2D.length);
                     cc.log('纹理详细信息:', {
@@ -879,6 +951,7 @@ export default class H5FileUploader extends cc.Component {
         window.spineTextureData = null;
         window.spineSkeletonType = null;
         window.textureSrc = null;
+        (window as any).spineTextures = null;
     }
 
     /**
